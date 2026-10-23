@@ -64,6 +64,9 @@ TARGET_CLASSES = [
     "Tomato___Tomato_mosaic_virus",
     "Tomato___healthy",
 ]
+_CROP_FILTER = [c.strip() for c in os.environ.get("CROPCARE_CROPS", "").split(",") if c.strip()]
+if _CROP_FILTER:
+    TARGET_CLASSES = [c for c in TARGET_CLASSES if c.split("___")[0] in _CROP_FILTER]
 
 NUM_CLASSES = len(TARGET_CLASSES)
 CLASS_TO_IDX = {cls: idx for idx, cls in enumerate(TARGET_CLASSES)}
