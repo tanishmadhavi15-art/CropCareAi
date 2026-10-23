@@ -1,0 +1,196 @@
+{
+  "classes": [
+    {
+      "class_idx": 0,
+      "class_name": "Apple___Apple_scab",
+      "usable_images": 630
+    },
+    {
+      "class_idx": 1,
+      "class_name": "Apple___Black_rot",
+      "usable_images": 621
+    },
+    {
+      "class_idx": 2,
+      "class_name": "Apple___Cedar_apple_rust",
+      "usable_images": 275
+    },
+    {
+      "class_idx": 3,
+      "class_name": "Apple___healthy",
+      "usable_images": 1645
+    },
+    {
+      "class_idx": 4,
+      "class_name": "Blueberry___healthy",
+      "usable_images": 1502
+    },
+    {
+      "class_idx": 5,
+      "class_name": "Cherry_(including_sour)___Powdery_mildew",
+      "usable_images": 1052
+    },
+    {
+      "class_idx": 6,
+      "class_name": "Cherry_(including_sour)___healthy",
+      "usable_images": 854
+    },
+    {
+      "class_idx": 7,
+      "class_name": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+      "usable_images": 513
+    },
+    {
+      "class_idx": 8,
+      "class_name": "Corn_(maize)___Common_rust_",
+      "usable_images": 1192
+    },
+    {
+      "class_idx": 9,
+      "class_name": "Corn_(maize)___Northern_Leaf_Blight",
+      "usable_images": 985
+    },
+    {
+      "class_idx": 10,
+      "class_name": "Corn_(maize)___healthy",
+      "usable_images": 1162
+    },
+    {
+      "class_idx": 11,
+      "class_name": "Grape___Black_rot",
+      "usable_images": 1180
+    },
+    {
+      "class_idx": 12,
+      "class_name": "Grape___Esca_(Black_Measles)",
+      "usable_images": 1383
+    },
+    {
+      "class_idx": 13,
+      "class_name": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+      "usable_images": 1076
+    },
+    {
+      "class_idx": 14,
+      "class_name": "Grape___healthy",
+      "usable_images": 423
+    },
+    {
+      "class_idx": 15,
+      "class_name": "Orange___Haunglongbing_(Citrus_greening)",
+      "usable_images": 5507
+    },
+    {
+      "class_idx": 16,
+      "class_name": "Peach___Bacterial_spot",
+      "usable_images": 2297
+    },
+    {
+      "class_idx": 17,
+      "class_name": "Peach___healthy",
+      "usable_images": 360
+    },
+    {
+      "class_idx": 18,
+      "class_name": "Pepper,_bell___Bacterial_spot",
+      "usable_images": 997
+    },
+    {
+      "class_idx": 19,
+      "class_name": "Pepper,_bell___healthy",
+      "usable_images": 1478
+    },
+    {
+      "class_idx": 20,
+      "class_name": "Potato___Early_blight",
+      "usable_images": 1000
+    },
+    {
+      "class_idx": 21,
+      "class_name": "Potato___Late_blight",
+      "usable_images": 1000
+    },
+    {
+      "class_idx": 22,
+      "class_name": "Potato___healthy",
+      "usable_images": 152
+    },
+    {
+      "class_idx": 23,
+      "class_name": "Raspberry___healthy",
+      "usable_images": 371
+    },
+    {
+      "class_idx": 24,
+      "class_name": "Soybean___healthy",
+      "usable_images": 5090
+    },
+    {
+      "class_idx": 25,
+      "class_name": "Squash___Powdery_mildew",
+      "usable_images": 1835
+    },
+    {
+      "class_idx": 26,
+      "class_name": "Strawberry___Leaf_scorch",
+      "usable_images": 1109
+    },
+    {
+      "class_idx": 27,
+      "class_name": "Strawberry___healthy",
+      "usable_images": 456
+    },
+    {
+      "class_idx": 28,
+      "class_name": "Tomato___Bacterial_spot",
+      "usable_images": 2127
+    },
+    {
+      "class_idx": 29,
+      "class_name": "Tomato___Early_blight",
+      "usable_images": 1000
+    },
+    {
+      "class_idx": 30,
+      "class_name": "Tomato___Late_blight",
+      "usable_images": 1909
+    },
+    {
+      "class_idx": 31,
+      "class_name": "Tomato___Leaf_Mold",
+      "usable_images": 952
+    },
+    {
+      "class_idx": 32,
+      "class_name": "Tomato___Septoria_leaf_spot",
+      "usable_images": 1771
+    },
+    {
+      "class_idx": 33,
+      "class_name": "Tomato___Spider_mites Two-spotted_spider_mite",
+      "usable_images": 1676
+    },
+    {
+      "class_idx": 34,
+      "class_name": "Tomato___Target_Spot",
+      "usable_images": 1404
+    },
+    {
+      "class_idx": 35,
+      "class_name": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+      "usable_images": 5357
+    },
+    {
+      "class_idx": 36,
+      "class_name": "Tomato___Tomato_mosaic_virus",
+      "usable_images": 373
+    },
+    {
+      "class_idx": 37,
+      "class_name": "Tomato___healthy",
+      "usable_images": 1591
+    }
+  ],
+  "num_classes": 38,
+  "data_directory": "CropCareAI/data/raw/PlantVillage"
+}

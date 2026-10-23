@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Validation Results — CropCare AI{% endblock %}
+
+{% block content %}
+<div class="app-shell validation-results-page">
+  <section class="section-head history-heading" aria-labelledby="validation-title">
+    <div>
+      <span class="eyebrow">SAVED COMPARISONS</span>
+      <h1 id="validation-title">Validation Results</h1>
+      <p>Compare CropCare AI predictions against known reference labels.</p>
+    </div>
+  </section>
+
+  <section class="validation-history" aria-labelledby="validation-title">
+    <form class="validation-filter-form" method="get" action="{{ url_for('validation_results') }}">
+      <label>Crop
+        <select name="validation_crop">
+          <option value="all">All crops</option>
+          {% for crop in validation_crops %}
+          <option value="{{ crop }}" {% if crop == validation_crop %}selected{% endif %}>{{ crop }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>Match
+        <select name="validation_status">
+          <option value="all" {% if validation_status == 'all' %}selected{% endif %}>All results</option>
+          <option value="match" {% if validation_status == 'match' %}selected{% endif %}>Correct match</option>
+          <option value="mismatch" {% if validation_status == 'mismatch' %}selected{% endif %}>Does not match</option>
+          <option value="unsupported" {% if validation_status == 'unsupported' %}selected{% endif %}>Not supported</option>
+          <option value="awaiting" {% if validation_status == 'awaiting' %}selected{% endif %}>Awaiting reference</option>
+        </select>
+      </label>
+      <input type="hidden" name="validation_page" value="1"/>
+      <button class="secondary-link" type="submit">Filter</button>
+    </form>
+
+    {% if validation_records %}
+    <div class="validation-history-table-wrap">
+      <table class="validation-history-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Crop</th>
+            <th>Reference disease</th>
+            <th>AI prediction</th>
+            <th>Confidence</th>
+            <th>Match</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in validation_records %}
+          <tr>
+            <td data-label="Image">
+              <a href="{{ url_for('validation_image', image_ref=record.image_ref) }}" target="_blank" rel="noopener">
+                <img src="{{ url_for('validation_image', image_ref=record.image_ref) }}" alt="Uploaded reference leaf" loading="lazy"/>
+                <span>{{ record.created_at }} · {{ record.original_filename }}</span>
+              </a>
+            </td>
+            <td data-label="Crop">{{ record.crop }}</td>
+            <td data-label="Reference disease">
+              {% if record.verified_label in supported_classes|map(attribute='class')|list %}
+                {{ supported_classes|selectattr('class','equalto',record.verified_label)|map(attribute='display')|first }}
+              {% else %}
+                {{ record.verified_label or 'Awaiting reference' }}
+              {% endif %}
+              <small>{{ record.label_source or record.source_description }}</small>
+            </td>
+            <td data-label="AI prediction">{{ record.predicted_display_name }}</td>
+            <td data-label="Confidence">{{ '%.1f'|format(record.prediction_confidence * 100) }}%</td>
+            <td data-label="Match">
+              <span class="validation-status status-{{ record.match_status }}">
+                {{ 'Correct match' if record.match_status == 'match' else ('Does not match' if record.match_status == 'mismatch' else record.match_label) }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="validation-history-empty">
+      <strong>No saved validation comparisons yet</strong>
+      <p>Completed reference comparisons stored in CropCare's validation database will appear here.</p>
+    </div>
+    {% endif %}
+
+    {% if validation_pages > 1 %}
+    <nav class="validation-pagination" aria-label="Validation result pages">
+      {% if validation_page > 1 %}
+      <a href="{{ url_for('validation_results', validation_crop=validation_crop, validation_status=validation_status, validation_page=validation_page - 1) }}">← Previous</a>
+      {% endif %}
+      <span>Page {{ validation_page }} of {{ validation_pages }}</span>
+      {% if validation_page < validation_pages %}
+      <a href="{{ url_for('validation_results', validation_crop=validation_crop, validation_status=validation_status, validation_page=validation_page + 1) }}">Next →</a>
+      {% endif %}
+    </nav>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}CropCare AI{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}CropCare AI — PlantVillage classification using MobileNetV3-Large fine-tuned from ImageNet weights.{% endblock %}"/>
+  <meta name="theme-color" content="#0b0f0a"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="{{ url_for('index') }}" class="nav-brand" aria-label="CropCare AI home">
+      <span class="leaf-icon" aria-hidden="true">🌱</span>
+      <span class="brand-copy"><strong>CropCare <b>AI</b></strong><small>Plant disease diagnosis &amp; crop care</small></span>
+    </a>
+
+    <ul class="nav-links">
+      <li>
+        <a href="{{ url_for('index') }}"
+           class="{% if request.endpoint == 'index' %}active{% endif %}">
+          <span aria-hidden="true">01</span><span>Diagnose</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('history') }}"
+           class="{% if request.endpoint == 'history' %}active{% endif %}">
+          <span aria-hidden="true">02</span><span>History</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('validation_results') }}"
+           class="{% if request.endpoint == 'validation_results' %}active{% endif %}">
+          <span aria-hidden="true">03</span><span>Validation Results</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ url_for('about') }}"
+           class="{% if request.endpoint == 'about' %}active{% endif %}">
+          <span aria-hidden="true">04</span><span>About</span>
+        </a>
+      </li>
+    </ul>
+
+    {% if model_ready %}
+      <div class="nav-status ready">
+        <div class="status-dot"></div>
+        Model Ready
+      </div>
+    {% else %}
+      <div class="nav-status not-ready">
+        <div class="status-dot"></div>
+        No Model
+      </div>
+    {% endif %}
+  </div>
+</nav>
+
+<!-- ── Flash messages ── -->
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    <ul class="flash-list">
+      {% for category, message in messages %}
+        <li class="flash-item alert alert-{{ 'error' if category == 'error' else 'success' if category == 'success' else 'info' }}">
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<!-- ── Main content ── -->
+<main id="main-content">
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>
+    <strong>CropCare AI</strong> — MobileNetV3-Large fine-tuned on
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5032846/" target="_blank">PlantVillage</a>
+    (Hughes &amp; Salehe 2015). &nbsp;|&nbsp; {{ num_classes }} PlantVillage classes.
+  </p>
+  <p class="mt-1">
+    For education and screening only. Confirm field diagnoses with a qualified agricultural professional.
+  </p>
+</footer>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

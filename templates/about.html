@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+{% block title %}About — CropCare AI{% endblock %}
+
+{% block content %}
+<div class="page-container">
+
+  <section class="about-hero">
+    <div><span class="eyebrow">THE PROJECT</span><h1>CropCare AI</h1><p>A local image-classification workflow for screening leaf photos against the verified PlantVillage class set and presenting the matching knowledge-base entry.</p></div>
+    <div class="about-hero-mark" aria-hidden="true"><span>38</span><small>PlantVillage labels</small></div>
+  </section>
+
+  <!-- Limitation banner — front and center -->
+  <div class="limitation-banner">
+    <h3>⚠️ Important Limitations</h3>
+    <ul>
+      <li>The model is evaluated on PlantVillage lab-controlled images. Real-world field photos with different lighting, backgrounds, or overlapping symptoms may perform differently.</li>
+      <li>Classification is limited to the <strong>{{ num_classes }} verified PlantVillage labels</strong>. Images outside those labels will still be assigned one of the known classes.</li>
+      <li>MobileNetV3-Large uses <strong>ImageNet pretrained weights</strong> and is fine-tuned on PlantVillage. This is transfer learning and does not guarantee field performance.</li>
+      <li>Confidence is the model's class probability, not disease severity, clinical certainty, or a calibrated field risk score.</li>
+      <li><strong>Do not use for actual crop management decisions</strong> without consulting a qualified agronomist.</li>
+    </ul>
+  </div>
+
+  <div class="grid-2">
+
+    <!-- Left column -->
+    <div>
+
+      <!-- Dataset section -->
+      <div class="card mb-3">
+        <div class="card-body">
+          <h2 class="section-title">Dataset &amp; labels</h2>
+
+          <p style="margin-bottom:1rem;">
+            Source: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5032846/" target="_blank">
+            PlantVillage (Hughes &amp; Salehe 2015)</a>.
+            The active classifier uses <strong>{{ num_classes }} configured PlantVillage labels</strong>. Images are color photographs captured under controlled conditions; this differs from many farm environments.
+          </p>
+
+          <div class="class-pills">
+            {% for cls_key, info in disease_info.items() %}
+              <span class="class-pill">{{ info.display_name }}</span>
+            {% endfor %}
+          </div>
+
+          {% if audit_report %}
+          <div class="stat-grid" style="margin-top:1rem;">
+            <div class="stat-card">
+              <span class="stat-value">{{ audit_report.total_target_images }}</span>
+              <span class="stat-label">Target Images</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">{{ audit_report.total_classes_found }}</span>
+              <span class="stat-label">Total Classes Found</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-value">{{ audit_report.class_imbalance_ratio }}</span>
+              <span class="stat-label">Imbalance Ratio</span>
+            </div>
+          </div>
+
+          <h4 style="margin:1rem 0 0.5rem;font-size:0.85rem;color:var(--text-muted);">Verified class image counts:</h4>
+          {% for cls_name, details in audit_report.class_details.items() %}
+          <div style="display:flex;justify-content:space-between;padding:0.35rem 0;border-bottom:1px solid var(--border-subtle);font-size:0.85rem;">
+            <span style="color:var(--text-secondary);">{{ cls_name.split('___')|last|replace('_',' ') }}</span>
+            <span class="mono text-green">{{ details.valid_count }}</span>
+          </div>
+          {% endfor %}
+          {% else %}
+          <div class="alert alert-info mt-3">
+            <span>ℹ️</span>
+            <span>Dataset audit report not yet generated. Run <code>python scripts/audit_dataset.py</code>.</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Training methodology -->
+      <div class="card mb-3">
+        <div class="card-body">
+          <h2 class="section-title">Model &amp; inference</h2>
+
+          <div style="font-size:0.88rem;line-height:1.9;color:var(--text-secondary);">
+            <div><strong>Architecture:</strong> torchvision MobileNetV3-Large with a replaced {{ num_classes }}-class classifier head.</div>
+            <div><strong>Initialization:</strong> ImageNet pretrained weights, then fine-tuned on PlantVillage (transfer learning).</div>
+            <div><strong>Preprocessing:</strong> 224 × 224 crop and ImageNet channel normalization.</div>
+            <div><strong>Inference:</strong> Flask validates the upload, runs PyTorch on CUDA where available (CPU fallback), maps the output index, and retrieves class guidance.</div>
+            <div><strong>Persistence:</strong> SQLite records the filename, predicted class, probability, top predictions, model, and guidance.</div>
+            <div><strong>Evaluation:</strong> best checkpoint is selected by validation macro-F1; the held-out test split is evaluated separately.</div>
+          </div>
+
+          {% for arch_name, report in training_reports.items() %}
+          <div style="margin-top:1rem;padding:0.75rem;background:var(--bg-glass);border-radius:var(--radius-md);border:1px solid var(--border-subtle);">
+            <div class="mono" style="color:var(--green-400);font-size:0.88rem;font-weight:600;margin-bottom:0.35rem;">
+              {{ arch_name }}
+            </div>
+            <div style="font-size:0.82rem;color:var(--text-muted);line-height:1.8;">
+              Epochs: {{ report.history|length }} |
+              Best val F1: {{ "%.4f"|format(report.best_val_f1) }} |
+              Training time: {{ (report.total_training_time_s / 60)|round(1) }} min
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right column -->
+    <div>
+
+      <!-- Architecture section -->
+      <div class="card mb-3">
+        <div class="card-body">
+          <h2 class="section-title">🏗️ Architectures</h2>
+          <p style="font-size:0.88rem;margin-bottom:1rem;">
+            MobileNetV3-Large starts from ImageNet pretrained weights and is fine-tuned on PlantVillage. This is transfer learning: useful visual features are adapted to the project's leaf-label task.
+          </p>
+          <div class="arch-grid" style="grid-template-columns:1fr;">
+            <div class="arch-card">
+              <div class="arch-name">MobileNetV3-Large</div>
+              <div class="arch-meta">
+                Primary model · torchvision MobileNetV3-Large<br>
+                ImageNet initialization · {{ num_classes }}-class replacement head<br>
+                Head phase followed by full fine-tuning
+              </div>
+            </div>
+            <div class="arch-card">
+              <div class="arch-name">CropCareNet_M</div>
+              <div class="arch-meta">
+                Legacy custom model · ~11.3M params<br>
+                Pre-activation residual blocks · 4 stages<br>
+                Stem + 8 residual blocks · GAP → FC
+              </div>
+            </div>
+            <div class="arch-card">
+              <div class="arch-name">CropCareNet_S / L</div>
+              <div class="arch-meta">
+                Legacy custom model<br>
+                Residual blocks + CBAM attention<br>
+                Channel & spatial attention after each stage
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Evaluation results -->
+      {% if eval_reports %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h2 class="section-title">📊 Test Set Results</h2>
+          <p class="evaluation-caption">Metrics below are from a saved evaluation report on the held-out PlantVillage test split, not validation data or an estimate of field performance.</p>
+
+          {% for arch_name, report in eval_reports.items() %}
+          <div style="margin-bottom:1.5rem;">
+            <div class="mono" style="color:var(--green-400);font-weight:600;margin-bottom:0.5rem;">
+              {{ arch_name }}
+            </div>
+
+            <div class="stat-grid" style="grid-template-columns:repeat(2,1fr);">
+              <div class="stat-card">
+                <span class="stat-value">{{ "%.1f"|format(report.metrics.overall_accuracy * 100) }}%</span>
+                <span class="stat-label">Accuracy</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">{{ "%.3f"|format(report.metrics.macro_f1) }}</span>
+                <span class="stat-label">Macro F1</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">{{ "%.3f"|format(report.metrics.macro_precision) }}</span>
+                <span class="stat-label">Macro Prec</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">{{ "%.3f"|format(report.metrics.macro_recall) }}</span>
+                <span class="stat-label">Macro Recall</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">{{ report.metrics.n_total }}</span>
+                <span class="stat-label">Test Images</span>
+              </div>
+            </div>
+
+            <!-- Per-class table -->
+            <div style="margin-top:0.75rem;overflow-x:auto;">
+              <table class="history-table" style="font-size:0.8rem;">
+                <thead>
+                  <tr>
+                    <th>Class</th><th>Precision</th><th>Recall</th><th>F1</th><th>Support</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for cls_name, m in report.metrics.per_class.items() %}
+                  <tr>
+                    <td>{{ cls_name.split('___')|last|replace('_',' ') }}</td>
+                    <td class="mono">{{ "%.4f"|format(m.precision) }}</td>
+                    <td class="mono">{{ "%.4f"|format(m.recall) }}</td>
+                    <td class="mono {% if m.f1 >= 0.9 %}text-green{% elif m.f1 >= 0.7 %}text-yellow{% else %}text-red{% endif %}">{{ "%.4f"|format(m.f1) }}</td>
+                    <td class="mono">{{ m.support }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Confusion matrix -->
+            {% if report.confusion_matrix %}
+            <h4 style="margin:0.75rem 0 0.4rem;font-size:0.8rem;color:var(--text-muted);">Confusion matrix (rows=true, cols=predicted):</h4>
+            <div class="cm-container">
+              <table class="cm-table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    {% for lbl in report.confusion_matrix_labels %}
+                      <th>{{ lbl.split('___')|last|replace('_', ' ')|truncate(10, true, '...') }}</th>
+                    {% endfor %}
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in report.confusion_matrix %}
+                  {% set i = loop.index0 %}
+                  <tr>
+                    <th style="text-align:left;">{{ report.confusion_matrix_labels[i].split('___')|last|replace('_', ' ')|truncate(10, true, '...') }}</th>
+                    {% for val in row %}
+                      {% set j = loop.index0 %}
+                      <td class="{% if i == j %}diagonal{% endif %}">{{ val }}</td>
+                    {% endfor %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% endif %}
+
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h2 class="section-title">📊 Evaluation Results</h2>
+          <div class="alert alert-info">
+            <span>ℹ️</span>
+            <span>No evaluation results yet. Run training and then <code>python src/evaluate.py</code>.</span>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+  <!-- Dataset reference -->
+  <div class="card mt-3">
+    <div class="card-body">
+      <h2 class="section-title">📚 References</h2>
+      <div style="font-size:0.88rem;color:var(--text-secondary);line-height:2;">
+        <div>
+          [1] Hughes, D., &amp; Salehe, M. (2015).
+          <em>An open access repository of images on plant health to enable the development of mobile disease diagnostics.</em>
+          arXiv:1511.08060.
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5032846/" target="_blank">↗</a>
+        </div>
+        <div>
+          [2] PlantVillage Dataset.
+          <a href="https://www.tensorflow.org/datasets/catalog/plant_village" target="_blank">
+          TensorFlow Datasets Catalog ↗</a>
+        </div>
+        <div>
+          [3] He, K. et al. (2016). Deep Residual Learning for Image Recognition. CVPR 2016.
+        </div>
+        <div>
+          [4] Woo, S. et al. (2018). CBAM: Convolutional Block Attention Module. ECCV 2018.
+        </div>
+        <div>
+          [5] Loshchilov, I. &amp; Hutter, F. (2019). Decoupled Weight Decay Regularization. ICLR 2019.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Add enumerate filter support via inline JS
+// (Jinja2 enumerate is added via app context for confusion matrix)
+</script>
+{% endblock %}

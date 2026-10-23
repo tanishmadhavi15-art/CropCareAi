@@ -1,0 +1,45 @@
+Test evaluation: MobileNetV3_Large
+Checkpoint: .\models\mobilenet_v3\best_MobileNetV3_Large.pth
+Samples: 8179
+Accuracy: 0.9870
+Macro-F1: 0.9829
+
+Per-class precision / recall / F1 / support
+Apple___Apple_scab: 1.0000 / 1.0000 / 1.0000 / 95
+Apple___Black_rot: 1.0000 / 1.0000 / 1.0000 / 94
+Apple___Cedar_apple_rust: 1.0000 / 1.0000 / 1.0000 / 42
+Apple___healthy: 0.9960 / 1.0000 / 0.9980 / 248
+Blueberry___healthy: 1.0000 / 0.9956 / 0.9978 / 226
+Cherry_(including_sour)___Powdery_mildew: 1.0000 / 0.9937 / 0.9968 / 159
+Cherry_(including_sour)___healthy: 1.0000 / 1.0000 / 1.0000 / 129
+Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot: 0.8471 / 0.9231 / 0.8834 / 78
+Corn_(maize)___Common_rust_: 1.0000 / 0.8111 / 0.8957 / 180
+Corn_(maize)___Northern_Leaf_Blight: 0.8588 / 0.9799 / 0.9154 / 149
+Corn_(maize)___healthy: 0.9669 / 1.0000 / 0.9831 / 175
+Grape___Black_rot: 0.9888 / 1.0000 / 0.9944 / 177
+Grape___Esca_(Black_Measles): 1.0000 / 0.9904 / 0.9952 / 208
+Grape___Leaf_blight_(Isariopsis_Leaf_Spot): 0.9701 / 1.0000 / 0.9848 / 162
+Grape___healthy: 1.0000 / 1.0000 / 1.0000 / 64
+Orange___Haunglongbing_(Citrus_greening): 1.0000 / 0.9976 / 0.9988 / 827
+Peach___Bacterial_spot: 1.0000 / 1.0000 / 1.0000 / 346
+Peach___healthy: 0.9167 / 1.0000 / 0.9565 / 55
+Pepper,_bell___Bacterial_spot: 0.9803 / 0.9868 / 0.9835 / 151
+Pepper,_bell___healthy: 0.9866 / 0.9910 / 0.9888 / 223
+Potato___Early_blight: 1.0000 / 1.0000 / 1.0000 / 150
+Potato___Late_blight: 1.0000 / 0.9933 / 0.9967 / 150
+Potato___healthy: 1.0000 / 1.0000 / 1.0000 / 24
+Raspberry___healthy: 1.0000 / 0.9825 / 0.9912 / 57
+Soybean___healthy: 1.0000 / 1.0000 / 1.0000 / 764
+Squash___Powdery_mildew: 0.9684 / 1.0000 / 0.9840 / 276
+Strawberry___Leaf_scorch: 1.0000 / 1.0000 / 1.0000 / 167
+Strawberry___healthy: 0.9857 / 1.0000 / 0.9928 / 69
+Tomato___Bacterial_spot: 0.9816 / 1.0000 / 0.9907 / 320
+Tomato___Early_blight: 0.9667 / 0.9667 / 0.9667 / 150
+Tomato___Late_blight: 0.9963 / 0.9373 / 0.9659 / 287
+Tomato___Leaf_Mold: 1.0000 / 0.9653 / 0.9823 / 144
+Tomato___Septoria_leaf_spot: 1.0000 / 0.9925 / 0.9962 / 267
+Tomato___Spider_mites Two-spotted_spider_mite: 0.9958 / 0.9325 / 0.9631 / 252
+Tomato___Target_Spot: 0.9095 / 0.9953 / 0.9505 / 212
+Tomato___Tomato_Yellow_Leaf_Curl_Virus: 1.0000 / 0.9963 / 0.9981 / 805
+Tomato___Tomato_mosaic_virus: 1.0000 / 1.0000 / 1.0000 / 57
+Tomato___healthy: 1.0000 / 1.0000 / 1.0000 / 240

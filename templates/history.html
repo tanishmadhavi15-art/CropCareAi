@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Prediction History — CropCare AI{% endblock %}
+
+{% block content %}
+<div class="app-shell history-shell">
+  <section class="section-head history-heading"><div><span class="eyebrow">SAVED CHECKS</span><h1>Recent leaf diagnoses</h1><p>Stored predictions from the current CropCare SQLite history, newest first.</p></div><a href="{{ url_for('index') }}" class="primary-link">New diagnosis <span aria-hidden="true">↗</span></a></section>
+
+  {% if stats.total_predictions %}
+  <section class="history-summary" aria-label="History summary">
+    <article class="summary-stat"><span class="summary-label">Stored predictions</span><strong>{{ stats.total_predictions }}</strong><small>All records in the database</small></article>
+    <article class="summary-stat"><span class="summary-label">Average confidence</span><strong>{{ '%.1f'|format(stats.avg_confidence * 100) }}%</strong><small>Across stored predictions</small></article>
+    {% if stats.class_counts %}
+    <article class="summary-stat"><span class="summary-label">Most frequent label</span><strong class="summary-class">{{ stats.class_counts[0].display_name }}</strong><small>{{ stats.class_counts[0].cnt }} stored predictions</small></article>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <section class="history-list-section" aria-labelledby="history-list-title">
+    <div class="list-heading"><div><span class="eyebrow">PREDICTION LOG</span><h2 id="history-list-title">{% if predictions %}{{ predictions|length }} most recent{% else %}Your checks{% endif %}</h2></div><span class="list-order">NEWEST FIRST</span></div>
+    {% if predictions %}
+    <div class="history-cards">
+      {% for p in predictions %}
+      <article class="history-entry">
+        <div class="history-entry-icon" aria-hidden="true">{{ '✓' if 'healthy' in p.predicted_class|lower else '✦' }}</div>
+        <div class="history-entry-main"><div class="history-entry-overline"><span>CHECK #{{ p.id }}</span><time datetime="{{ p.timestamp|replace(' ', 'T') }}">{{ p.timestamp }}</time></div><h3>{{ p.display_name }}</h3><p class="history-file" title="{{ p.filename }}">File: {{ p.filename }}</p></div>
+        <div class="history-entry-confidence"><span class="confidence-chip {% if p.confidence < 0.6 %}confidence-low{% elif p.confidence < 0.8 %}confidence-mid{% endif %}">{{ '%.1f'|format(p.confidence * 100) }}%</span><small>model confidence</small></div>
+        <div class="history-entry-model"><span>{{ p.arch or 'Model not recorded' }}</span><small>{{ p.img_size or '—' }} px input</small></div>
+      </article>
+      {% endfor %}
+    </div>
+    <p class="history-note">The database stores filenames and prediction details, but not a link between each record and its uploaded image. Photos are therefore not shown here.</p>
+    {% else %}
+    <div class="history-empty"><span class="empty-emblem" aria-hidden="true">✦</span><span class="eyebrow">NO SAVED CHECKS</span><h3>Your diagnosis history is empty</h3><p>Complete a leaf analysis to see its date, prediction, and confidence recorded here.</p><a href="{{ url_for('index') }}" class="primary-link">Check a leaf <span aria-hidden="true">→</span></a></div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

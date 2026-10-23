@@ -1,0 +1,779 @@
+{
+  "timestamp": "2026-10-23 13:18:45",
+  "data_directory": "CropCareAI/data/raw/PlantVillage",
+  "total_classes_found": 38,
+  "target_classes_matched": 38,
+  "missing_target_classes": [],
+  "excluded_classes": [],
+  "directory_to_target_mapping": {
+    "Apple___Apple_scab": "Apple___Apple_scab",
+    "Apple___Black_rot": "Apple___Black_rot",
+    "Apple___Cedar_apple_rust": "Apple___Cedar_apple_rust",
+    "Apple___healthy": "Apple___healthy",
+    "Blueberry___healthy": "Blueberry___healthy",
+    "Cherry_(including_sour)___Powdery_mildew": "Cherry_(including_sour)___Powdery_mildew",
+    "Cherry_(including_sour)___healthy": "Cherry_(including_sour)___healthy",
+    "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+    "Corn_(maize)___Common_rust_": "Corn_(maize)___Common_rust_",
+    "Corn_(maize)___Northern_Leaf_Blight": "Corn_(maize)___Northern_Leaf_Blight",
+    "Corn_(maize)___healthy": "Corn_(maize)___healthy",
+    "Grape___Black_rot": "Grape___Black_rot",
+    "Grape___Esca_(Black_Measles)": "Grape___Esca_(Black_Measles)",
+    "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+    "Grape___healthy": "Grape___healthy",
+    "Orange___Haunglongbing_(Citrus_greening)": "Orange___Haunglongbing_(Citrus_greening)",
+    "Peach___Bacterial_spot": "Peach___Bacterial_spot",
+    "Peach___healthy": "Peach___healthy",
+    "Pepper,_bell___Bacterial_spot": "Pepper,_bell___Bacterial_spot",
+    "Pepper,_bell___healthy": "Pepper,_bell___healthy",
+    "Potato___Early_blight": "Potato___Early_blight",
+    "Potato___Late_blight": "Potato___Late_blight",
+    "Potato___healthy": "Potato___healthy",
+    "Raspberry___healthy": "Raspberry___healthy",
+    "Soybean___healthy": "Soybean___healthy",
+    "Squash___Powdery_mildew": "Squash___Powdery_mildew",
+    "Strawberry___Leaf_scorch": "Strawberry___Leaf_scorch",
+    "Strawberry___healthy": "Strawberry___healthy",
+    "Tomato___Bacterial_spot": "Tomato___Bacterial_spot",
+    "Tomato___Early_blight": "Tomato___Early_blight",
+    "Tomato___Late_blight": "Tomato___Late_blight",
+    "Tomato___Leaf_Mold": "Tomato___Leaf_Mold",
+    "Tomato___Septoria_leaf_spot": "Tomato___Septoria_leaf_spot",
+    "Tomato___Spider_mites Two-spotted_spider_mite": "Tomato___Spider_mites Two-spotted_spider_mite",
+    "Tomato___Target_Spot": "Tomato___Target_Spot",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "Tomato___Tomato_mosaic_virus": "Tomato___Tomato_mosaic_virus",
+    "Tomato___healthy": "Tomato___healthy"
+  },
+  "class_details": {
+    "Apple___Apple_scab": {
+      "directory_name": "Apple___Apple_scab",
+      "valid_count": 630,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 5.5546875,
+      "max_file_size_kb": 22.580078125,
+      "avg_file_size_kb": 13.611331225198413
+    },
+    "Apple___Black_rot": {
+      "directory_name": "Apple___Black_rot",
+      "valid_count": 621,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 8.62890625,
+      "max_file_size_kb": 24.9326171875,
+      "avg_file_size_kb": 18.255967881944443
+    },
+    "Apple___Cedar_apple_rust": {
+      "directory_name": "Apple___Cedar_apple_rust",
+      "valid_count": 275,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 7.455078125,
+      "max_file_size_kb": 13.16015625,
+      "avg_file_size_kb": 10.143753551136363
+    },
+    "Apple___healthy": {
+      "directory_name": "Apple___healthy",
+      "valid_count": 1645,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 7.658203125,
+      "max_file_size_kb": 22.7021484375,
+      "avg_file_size_kb": 14.105399886018237
+    },
+    "Blueberry___healthy": {
+      "directory_name": "Blueberry___healthy",
+      "valid_count": 1502,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 5.21875,
+      "max_file_size_kb": 22.7900390625,
+      "avg_file_size_kb": 17.25985599929261
+    },
+    "Cherry_(including_sour)___Powdery_mildew": {
+      "directory_name": "Cherry_(including_sour)___Powdery_mildew",
+      "valid_count": 1052,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 5.9443359375,
+      "max_file_size_kb": 22.6875,
+      "avg_file_size_kb": 10.514733840304183
+    },
+    "Cherry_(including_sour)___healthy": {
+      "directory_name": "Cherry_(including_sour)___healthy",
+      "valid_count": 854,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 6.5859375,
+      "max_file_size_kb": 30.0009765625,
+      "avg_file_size_kb": 16.091338325161008
+    },
+    "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
+      "directory_name": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+      "valid_count": 513,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 8.7685546875,
+      "max_file_size_kb": 23.017578125,
+      "avg_file_size_kb": 15.67006845455653
+    },
+    "Corn_(maize)___Common_rust_": {
+      "directory_name": "Corn_(maize)___Common_rust_",
+      "valid_count": 1192,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 6.2490234375,
+      "max_file_size_kb": 20.3125,
+      "avg_file_size_kb": 13.832676010643876
+    },
+    "Corn_(maize)___Northern_Leaf_Blight": {
+      "directory_name": "Corn_(maize)___Northern_Leaf_Blight",
+      "valid_count": 985,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 7.3720703125,
+      "max_file_size_kb": 21.20703125,
+      "avg_file_size_kb": 13.657444677982234
+    },
+    "Corn_(maize)___healthy": {
+      "directory_name": "Corn_(maize)___healthy",
+      "valid_count": 1162,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 3.783203125,
+      "max_file_size_kb": 23.53515625,
+      "avg_file_size_kb": 11.209678557981928
+    },
+    "Grape___Black_rot": {
+      "directory_name": "Grape___Black_rot",
+      "valid_count": 1180,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 9.2509765625,
+      "max_file_size_kb": 21.3642578125,
+      "avg_file_size_kb": 16.01918117717161
+    },
+    "Grape___Esca_(Black_Measles)": {
+      "directory_name": "Grape___Esca_(Black_Measles)",
+      "valid_count": 1383,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 10.1552734375,
+      "max_file_size_kb": 24.3740234375,
+      "avg_file_size_kb": 19.21150875022596
+    },
+    "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": {
+      "directory_name": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+      "valid_count": 1076,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 12.4736328125,
+      "max_file_size_kb": 22.4580078125,
+      "avg_file_size_kb": 17.99039955564591
+    },
+    "Grape___healthy": {
+      "directory_name": "Grape___healthy",
+      "valid_count": 423,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 8.7177734375,
+      "max_file_size_kb": 20.900390625,
+      "avg_file_size_kb": 14.529737828752955
+    },
+    "Orange___Haunglongbing_(Citrus_greening)": {
+      "directory_name": "Orange___Haunglongbing_(Citrus_greening)",
+      "valid_count": 5507,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 5.0341796875,
+      "max_file_size_kb": 20.6552734375,
+      "avg_file_size_kb": 10.813668080113946
+    },
+    "Peach___Bacterial_spot": {
+      "directory_name": "Peach___Bacterial_spot",
+      "valid_count": 2297,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 5.7021484375,
+      "max_file_size_kb": 21.6328125,
+      "avg_file_size_kb": 12.677312204097737
+    },
+    "Peach___healthy": {
+      "directory_name": "Peach___healthy",
+      "valid_count": 360,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 7.0810546875,
+      "max_file_size_kb": 18.8505859375,
+      "avg_file_size_kb": 15.572629123263889
+    },
+    "Pepper,_bell___Bacterial_spot": {
+      "directory_name": "Pepper,_bell___Bacterial_spot",
+      "valid_count": 997,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 8.4384765625,
+      "max_file_size_kb": 25.875,
+      "avg_file_size_kb": 17.709895310932797
+    },
+    "Pepper,_bell___healthy": {
+      "directory_name": "Pepper,_bell___healthy",
+      "valid_count": 1478,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 7.4501953125,
+      "max_file_size_kb": 118.80078125,
+      "avg_file_size_kb": 16.35148321211096
+    },
+    "Potato___Early_blight": {
+      "directory_name": "Potato___Early_blight",
+      "valid_count": 1000,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 14.48828125,
+      "max_file_size_kb": 24.6142578125,
+      "avg_file_size_kb": 19.466099609375
+    },
+    "Potato___Late_blight": {
+      "directory_name": "Potato___Late_blight",
+      "valid_count": 1000,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 9.2294921875,
+      "max_file_size_kb": 22.4599609375,
+      "avg_file_size_kb": 16.0790283203125
+    },
+    "Potato___healthy": {
+      "directory_name": "Potato___healthy",
+      "valid_count": 152,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 11.8134765625,
+      "max_file_size_kb": 23.95703125,
+      "avg_file_size_kb": 19.550460012335527
+    },
+    "Raspberry___healthy": {
+      "directory_name": "Raspberry___healthy",
+      "valid_count": 371,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 11.203125,
+      "max_file_size_kb": 25.1083984375,
+      "avg_file_size_kb": 18.249144520721025
+    },
+    "Soybean___healthy": {
+      "directory_name": "Soybean___healthy",
+      "valid_count": 5090,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 6.580078125,
+      "max_file_size_kb": 27.44140625,
+      "avg_file_size_kb": 17.573160839268173
+    },
+    "Squash___Powdery_mildew": {
+      "directory_name": "Squash___Powdery_mildew",
+      "valid_count": 1835,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 9.95703125,
+      "max_file_size_kb": 25.923828125,
+      "avg_file_size_kb": 16.812118954359672
+    },
+    "Strawberry___Leaf_scorch": {
+      "directory_name": "Strawberry___Leaf_scorch",
+      "valid_count": 1109,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 10.40625,
+      "max_file_size_kb": 23.5712890625,
+      "avg_file_size_kb": 18.579371900360684
+    },
+    "Strawberry___healthy": {
+      "directory_name": "Strawberry___healthy",
+      "valid_count": 456,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 11.0703125,
+      "max_file_size_kb": 23.0341796875,
+      "avg_file_size_kb": 19.16602419133772
+    },
+    "Tomato___Bacterial_spot": {
+      "directory_name": "Tomato___Bacterial_spot",
+      "valid_count": 2127,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 6.7685546875,
+      "max_file_size_kb": 18.30859375,
+      "avg_file_size_kb": 12.586714801510343
+    },
+    "Tomato___Early_blight": {
+      "directory_name": "Tomato___Early_blight",
+      "valid_count": 1000,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 7.5517578125,
+      "max_file_size_kb": 24.0537109375,
+      "avg_file_size_kb": 14.848580078125
+    },
+    "Tomato___Late_blight": {
+      "directory_name": "Tomato___Late_blight",
+      "valid_count": 1909,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 3.359375,
+      "max_file_size_kb": 21.69921875,
+      "avg_file_size_kb": 13.14990976132792
+    },
+    "Tomato___Leaf_Mold": {
+      "directory_name": "Tomato___Leaf_Mold",
+      "valid_count": 952,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 8.6220703125,
+      "max_file_size_kb": 22.1591796875,
+      "avg_file_size_kb": 15.367425485819327
+    },
+    "Tomato___Septoria_leaf_spot": {
+      "directory_name": "Tomato___Septoria_leaf_spot",
+      "valid_count": 1771,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 8.9345703125,
+      "max_file_size_kb": 26.341796875,
+      "avg_file_size_kb": 17.070622948722473
+    },
+    "Tomato___Spider_mites Two-spotted_spider_mite": {
+      "directory_name": "Tomato___Spider_mites Two-spotted_spider_mite",
+      "valid_count": 1676,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 11.5234375,
+      "max_file_size_kb": 25.0205078125,
+      "avg_file_size_kb": 19.35228618175716
+    },
+    "Tomato___Target_Spot": {
+      "directory_name": "Tomato___Target_Spot",
+      "valid_count": 1404,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 10.4638671875,
+      "max_file_size_kb": 25.046875,
+      "avg_file_size_kb": 19.804135227475072
+    },
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+      "directory_name": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+      "valid_count": 5357,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 4.34375,
+      "max_file_size_kb": 22.716796875,
+      "avg_file_size_kb": 12.688959830595483
+    },
+    "Tomato___Tomato_mosaic_virus": {
+      "directory_name": "Tomato___Tomato_mosaic_virus",
+      "valid_count": 373,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 11.419921875,
+      "max_file_size_kb": 24.4521484375,
+      "avg_file_size_kb": 18.53158773877346
+    },
+    "Tomato___healthy": {
+      "directory_name": "Tomato___healthy",
+      "valid_count": 1591,
+      "unreadable_count": 0,
+      "unsupported_count": 0,
+      "unreadable": [],
+      "unsupported": [],
+      "min_dimensions": [
+        256,
+        256
+      ],
+      "max_dimensions": [
+        256,
+        256
+      ],
+      "min_file_size_kb": 9.248046875,
+      "max_file_size_kb": 28.095703125,
+      "avg_file_size_kb": 21.67734645073853
+    }
+  },
+  "total_target_images": 54305,
+  "total_excluded_images": 0,
+  "unreadable_images": [],
+  "unsupported_files": [],
+  "empty_configured_classes": [],
+  "populated_unmapped_classes": [],
+  "class_imbalance_ratio": 36.23
+}

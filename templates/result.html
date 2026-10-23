@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Result — {{ result.display_name }} — CropCare AI{% endblock %}
+{% block meta_desc %}CropCare AI predicted {{ result.display_name }} with {{ result.confidence_pct }}% confidence.{% endblock %}
+
+{% block content %}
+<div class="app-shell result-shell">
+  <div class="result-breadcrumb"><a href="{{ url_for('index') }}">Diagnose</a><span aria-hidden="true">/</span><span>Analysis result</span></div>
+  <section class="result-hero" aria-labelledby="result-title">
+    <div class="result-image-wrap">
+      {% if result.uploaded_filename %}
+      <img class="result-image" src="{{ url_for('uploaded_file', filename=result.uploaded_filename) }}" alt="Uploaded plant image: {{ result.original_filename }}"/>
+      {% endif %}
+      <div class="image-caption"><span class="image-caption-icon" aria-hidden="true">▧</span><span>{{ result.original_filename }}</span></div>
+    </div>
+    <div class="result-summary">
+      <div class="result-meta-row">
+        <span class="diagnosis-status {% if result.disease_info.is_healthy %}status-healthy{% else %}status-condition{% endif %}">{{ 'Healthy classification' if result.disease_info.is_healthy else 'Condition classification' }}</span>
+        <span class="result-id">CHECK #{{ result.pred_id }}</span>
+      </div>
+      <span class="eyebrow">{{ result.crop or 'Plant' }} · PLANTVILLAGE CLASS</span>
+      <h1 id="result-title">{{ result.display_name }}</h1>
+      <p class="canonical-label">{{ result.predicted_class }}</p>
+      <div class="confidence-block">
+        <div class="confidence-heading"><span>Model confidence</span><strong>{{ '%.2f'|format(result.confidence_pct) }}%</strong></div>
+        <div class="confidence-track" role="progressbar" aria-label="Model confidence" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ '%.2f'|format(result.confidence_pct) }}">
+          <span class="confidence-value {% if result.confidence < 0.6 %}is-low{% endif %}" style="width:{{ result.confidence_pct }}%"></span>
+        </div>
+        <p class="confidence-note">A probability from the model, not a measure of disease severity or a confirmed field diagnosis.</p>
+      </div>
+      {% if result.confidence < 0.6 %}
+      <div class="low-confidence" role="alert"><strong>Low confidence</strong><span>The image may not clearly match a learned PlantVillage class. Consider a clearer photo and expert review.</span></div>
+      {% endif %}
+      <div class="result-stats"><span>{{ result.arch }}</span><i></i><span>{{ result.img_size }} px input</span><i></i><span>{{ result.inference_time_ms }} ms</span></div>
+    </div>
+  </section>
+
+  <section class="result-section prediction-section" aria-labelledby="alternatives-title">
+    <div class="section-head"><div><span class="eyebrow">MODEL OUTPUT</span><h2 id="alternatives-title">Top five predictions</h2><p>Actual softmax probabilities returned for this image, ranked highest first.</p></div><span class="section-index">02 <i>/</i> 03</span></div>
+    <ol class="probability-list">
+      {% for pred in result.top_predictions[:5] %}
+      <li class="probability-row {% if loop.first %}is-leading{% endif %}">
+        <div class="probability-copy"><span class="rank-number">{{ '%02d'|format(loop.index) }}</span><span class="probability-name">{{ pred.display_name }}</span><strong>{{ '%.2f'|format(pred.confidence_pct) }}%</strong></div>
+        <div class="probability-track" role="progressbar" aria-label="{{ pred.display_name }} probability" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ '%.2f'|format(pred.confidence_pct) }}"><span style="width:{{ pred.confidence_pct }}%"></span></div>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <section class="result-section guidance-section" aria-labelledby="guidance-title">
+    <div class="section-head"><div><span class="eyebrow">CROPCARE KNOWLEDGE BASE</span><h2 id="guidance-title">What this label means</h2><p>Guidance below is associated with the predicted class in the project knowledge base.</p></div><span class="section-index">03 <i>/</i> 03</span></div>
+    <div class="guidance-grid">
+      <article class="guidance-panel overview-panel"><span class="guidance-index">PROFILE</span><h3>Class overview</h3><dl class="diagnosis-facts"><div><dt>Crop</dt><dd>{{ result.crop or 'Not specified in the knowledge base' }}</dd></div><div><dt>Class</dt><dd>{{ result.display_name }}</dd></div><div><dt>Type</dt><dd>{{ 'Healthy label' if result.disease_info.is_healthy else 'Disease/condition label' }}</dd></div></dl></article>
+      <article class="guidance-panel symptoms-panel"><span class="guidance-index">OBSERVATION</span><h3>Typical symptoms</h3><p>{{ result.disease_info.symptoms or 'No symptom description is available for this class.' }}</p></article>
+      <article class="guidance-panel management-panel"><span class="guidance-index">CARE GUIDANCE</span><h3>Management</h3><p>{{ result.disease_info.management or 'No management guidance is available for this class. Please consult a qualified agricultural professional.' }}</p></article>
+      <article class="guidance-panel prevention-panel"><span class="guidance-index">PREVENTION</span><h3>Next steps</h3><p>The current knowledge entry does not provide a separate prevention field. Confirm the classification with a qualified local agricultural professional before taking action.</p></article>
+    </div>
+  </section>
+
+  <aside class="field-limit-note" role="note"><span aria-hidden="true">!</span><p><strong>PlantVillage context</strong> The model was fine-tuned on controlled-background images. Real farm photos with different lighting, backgrounds, or overlapping symptoms may be classified less reliably. Do not base crop treatment solely on this result.</p></aside>
+  <div class="result-actions"><a href="{{ url_for('index') }}" class="primary-link">New diagnosis <span aria-hidden="true">↗</span></a><a href="{{ url_for('history') }}" class="secondary-link">View history <span aria-hidden="true">→</span></a></div>
+</div>
+{% endblock %}

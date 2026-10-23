@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}Diagnose — CropCare AI{% endblock %}
+
+{% block content %}
+<div class="app-shell">
+  <section class="diagnose-hero" aria-labelledby="diagnose-title">
+    <div class="diagnose-hero-copy">
+      <span class="eyebrow"><span class="eyebrow-dot"></span> PLANTVILLAGE · {{ num_classes }} VERIFIED CLASSES</span>
+      <h1 id="diagnose-title">Healthier crops<br><em>start with a leaf.</em></h1>
+      <p>Submit a clear leaf photo for a MobileNetV3-Large classification and the matching guidance in CropCare's knowledge base.</p>
+      <a class="primary-link" href="#leaf-upload">Check a leaf <span aria-hidden="true">↓</span></a>
+      <div class="trust-line"><span aria-hidden="true">✓</span> ImageNet transfer learning <i></i> 38 PlantVillage labels <i></i> Local SQLite history</div>
+    </div>
+    <div class="hero-botanical" aria-hidden="true">
+      <div class="hero-sun"></div><div class="hero-stem"></div>
+      <div class="hero-leaf leaf-a"></div><div class="hero-leaf leaf-b"></div>
+      <div class="hero-leaf leaf-c"></div><div class="hero-leaf leaf-d"></div>
+      <div class="hero-caption"><span>✦</span><div><b>CropCare AI</b><small>Plant health screening</small></div></div>
+    </div>
+  </section>
+
+  {% if not model_ready %}
+  <div class="alert alert-error mb-3" role="alert">
+    <span aria-hidden="true">!</span><span><strong>Model unavailable.</strong> {{ model_error or 'The MobileNetV3 checkpoint could not be loaded.' }}</span>
+  </div>
+  {% endif %}
+
+  <section class="section-head" id="leaf-upload">
+    <div><span class="eyebrow">LEAF HEALTH CHECK</span><h2>Start an analysis</h2><p>Use a focused, well-lit image. Results are limited to the model's verified label set.</p></div>
+    <span class="section-index">01 <i>/</i> 03</span>
+  </section>
+  <section class="workspace-grid">
+    <div class="panel upload-panel">
+      <div class="panel-heading"><span class="panel-icon" aria-hidden="true">↑</span><div><h3>Upload leaf photo</h3><p>Choose a clear image of one leaf or plant section.</p></div></div>
+      <form id="upload-form" method="POST" action="{{ url_for('predict_route') }}" enctype="multipart/form-data">
+        <label class="dropzone" id="upload-zone" for="image-input" tabindex="0">
+          <input class="visually-hidden" type="file" id="image-input" name="image" accept="{% for ext in allowed_upload_extensions %}.{{ ext }}{% if not loop.last %},{% endif %}{% endfor %}" required aria-describedby="upload-guidance upload-error"/>
+          <span class="upload-glyph" aria-hidden="true">↥</span>
+          <strong>Drop your image here</strong><span>or <b>browse files</b></span>
+          <small id="upload-guidance">{{ allowed_upload_extensions|map('upper')|join(', ') }} · Up to {{ max_upload_size_mb }} MB · Minimum 10 × 10 px</small>
+          <img id="preview-img" class="upload-preview" alt="Preview of selected leaf image" hidden/>
+        </label>
+        <div id="file-row" class="file-row" hidden><span>Selected photo</span><b id="file-name"></b><button type="button" id="remove-file" aria-label="Remove selected image">Remove</button></div>
+        <p class="inline-error" id="upload-error" role="alert" aria-live="polite" hidden></p>
+        <button class="submit" id="submit-btn" type="submit" {% if not model_ready %}disabled{% endif %}>
+          <span id="submit-text">Analyze leaf</span><span class="button-arrow" aria-hidden="true">→</span><span class="spinner" id="submit-spinner" aria-hidden="true"></span>
+        </button>
+        <p class="privacy-note">Image formats and size are validated by the server before prediction.</p>
+      </form>
+    </div>
+
+    <aside class="panel analysis-placeholder" aria-labelledby="analysis-heading">
+      <div class="panel-heading"><span class="panel-icon" aria-hidden="true">✧</span><div><h3 id="analysis-heading">Leaf diagnosis</h3><p>What happens after you submit</p></div><span class="status-chip">READY</span></div>
+      <div class="ready-state"><span class="ready-mark" aria-hidden="true">⌕</span><h3>Ready when you are</h3><p>CropCare applies the same 224 px ImageNet preprocessing used during MobileNet evaluation, then maps the model output to one of the configured classes.</p><div class="ready-facts"><div><b>{{ num_classes }}</b><span>class labels</span></div><div><b>224 px</b><span>model input</span></div><div><b>SQLite</b><span>history storage</span></div></div></div>
+    </aside>
+  </section>
+
+  <!-- How it works -->
+  <section class="catalog-section" id="class-catalog">
+    <div class="section-head"><div><span class="eyebrow">PLANT HEALTH GUIDE</span><h2>Browse supported classes</h2><p>Class labels and crop names come from the active model mapping and disease knowledge base.</p></div><label class="filter-wrap"><span class="visually-hidden">Filter class list</span><input id="class-filter" type="search" placeholder="Filter classes" autocomplete="off"/></label></div>
+    <div class="catalog-grid" id="class-grid">
+      {% for cls in supported_classes %}
+      <article class="catalog-item" data-search="{{ (cls.crop ~ ' ' ~ cls.display)|lower }}">
+        <div class="catalog-item-top"><span>{{ cls.crop or 'Plant' }}</span><span class="category-tag {% if cls.healthy %}healthy{% else %}condition{% endif %}">{{ 'Healthy' if cls.healthy else 'Condition' }}</span></div>
+        <h3>{{ cls.display }}</h3>
+      </article>
+      {% endfor %}
+    </div>
+    <p class="catalog-empty" id="catalog-empty" hidden>No classes match that filter.</p>
+  </section>
+
+  <section class="recent-section">
+    <div class="section-head"><div><span class="eyebrow">SAVED CHECKS</span><h2>Recent diagnoses</h2><p>Recent predictions saved in this browser instance's SQLite history.</p></div><a class="secondary-link" href="{{ url_for('history') }}">View history <span aria-hidden="true">↗</span></a></div>
+    {% if recent_predictions %}
+    <div class="recent-grid">
+      {% for item in recent_predictions %}
+      <article class="recent-item"><span class="recent-date">{{ item.timestamp }}</span><h3>{{ item.display_name }}</h3><p class="recent-file">{{ item.filename }}</p><div class="recent-meta"><span>{{ item.arch or 'Model' }}</span><strong>{{ '%.1f'|format(item.confidence * 100) }}%</strong></div></article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="recent-empty"><span aria-hidden="true">✦</span><div><strong>No saved diagnoses yet</strong><p>Your completed image checks will appear here.</p></div></div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const zone = document.getElementById('upload-zone');
+const input = document.getElementById('image-input');
+const preview = document.getElementById('preview-img');
+const fileRow = document.getElementById('file-row');
+const fileName = document.getElementById('file-name');
+const errorBox = document.getElementById('upload-error');
+const form = document.getElementById('upload-form');
+const submit = document.getElementById('submit-btn');
+const submitText = document.getElementById('submit-text');
+const spinner = document.getElementById('submit-spinner');
+const maxBytes = {{ max_upload_size_mb * 1024 * 1024 }};
+const allowed = {{ allowed_upload_extensions|tojson }};
+let previewUrl = null;
+
+function announceError(message) {
+  errorBox.textContent = message;
+  errorBox.hidden = false;
+}
+function selectFile(file) {
+  if (!file) return;
+  const extension = file.name.split('.').pop().toLowerCase();
+  if (!allowed.includes(extension)) return announceError('Choose one of the supported formats: ' + allowed.join(', ').toUpperCase() + '.');
+  if (file.size > maxBytes) return announceError('This file exceeds the server limit of {{ max_upload_size_mb }} MB.');
+  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  previewUrl = URL.createObjectURL(file);
+  preview.src = previewUrl;
+  preview.hidden = false;
+  fileRow.hidden = false;
+  fileName.textContent = file.name + ' · ' + (file.size / 1048576).toFixed(2) + ' MB';
+  errorBox.hidden = true;
+  zone.classList.add('has-file');
+}
+input.addEventListener('change', () => selectFile(input.files[0]));
+['dragenter', 'dragover'].forEach(eventName => zone.addEventListener(eventName, event => {
+  event.preventDefault(); zone.classList.add('dragover');
+}));
+['dragleave', 'drop'].forEach(eventName => zone.addEventListener(eventName, event => {
+  event.preventDefault(); zone.classList.remove('dragover');
+}));
+zone.addEventListener('drop', event => {
+  const file = event.dataTransfer.files[0];
+  if (!file) return;
+  const transfer = new DataTransfer(); transfer.items.add(file); input.files = transfer.files; selectFile(file);
+});
+zone.addEventListener('keydown', event => {
+  if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); input.click(); }
+});
+document.getElementById('remove-file').addEventListener('click', () => {
+  input.value = ''; preview.hidden = true; preview.removeAttribute('src'); fileRow.hidden = true;
+  zone.classList.remove('has-file'); errorBox.hidden = true;
+  if (previewUrl) URL.revokeObjectURL(previewUrl); previewUrl = null; input.focus();
+});
+form.addEventListener('submit', event => {
+  if (!input.files.length) { event.preventDefault(); announceError('Choose a leaf image before starting the analysis.'); input.focus(); return; }
+  submit.disabled = true; submitText.textContent = 'Analyzing image…'; spinner.classList.add('visible');
+  submit.setAttribute('aria-busy', 'true');
+});
+document.getElementById('class-filter').addEventListener('input', event => {
+  const query = event.target.value.trim().toLowerCase(); let visible = 0;
+  document.querySelectorAll('.catalog-item').forEach(item => {
+    const matches = item.dataset.search.includes(query); item.hidden = !matches; if (matches) visible++;
+  });
+  document.getElementById('catalog-empty').hidden = visible !== 0;
+});
+</script>
+{% endblock %}
